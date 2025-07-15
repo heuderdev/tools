@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de Carousel</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js"></script>
+</head>
+
+<body>
+    <div id="meu-carousel" class="carousel">
+        <div class="carousel-wrapper">
+            <div class="carousel-item">
+                <img src="./img1.png" alt="Slide 1">
+            </div>
+            <div class="carousel-item">
+                <img src="./img2.png" alt="Slide 2">
+            </div>
+            <div class="carousel-item">
+                <img src="./img3.png" alt="Slide 3">
+            </div>
+        </div>
+        <button class="prev">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path
+                    d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+            </svg>
+        </button>
+        <button class="next">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path
+                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        new Carousel('#meu-carousel', {
+            autoScroll: true,          // Ativa auto-scroll
+            autoScrollInterval: 2000,  // Intervalo em ms
+            showDots: true,            // Mostra dots
+            pauseOnHover: true,        // Pausa no hover
+            slideSpeed: '0.6s'         // Velocidade da transição
+        });
+    </script>
+</body>
+
+</html>
