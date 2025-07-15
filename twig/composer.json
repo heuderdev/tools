@@ -1,0 +1,23 @@
+{
+    "name": "heuderdev/basecomposer",
+    "description": "Base para projetos com composer",
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.7",
+        "nyholm/psr7": "^1.8",
+        "nyholm/psr7-server": "^1.1",
+        "guzzlehttp/psr7": "2",
+        "laminas/laminas-diactoros": "^3.6",
+        "slim/twig-view": "^3.4",
+        "php-di/php-di": "^7.0",
+        "odan/twig-assets": "^4.1"
+    },
+    "require-dev": {
+        "spatie/phpunit-watcher": "^1.24",
+        "spatie/file-system-watcher": "^1.2"
+    },
+    "scripts": {
+        "serve": "php -S localhost:8000 index.php",
+        "watch": "browser-sync start --proxy 'localhost:8000' --files '**/+.php, templates/**/*.twig'"
+    }
+}
