@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VUE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vue" class="container mt-5">
+
+        <form @submit.prevent="handleSubmit">
+            <input class="form-control" v-model="input.cpf" name="cpf" id="cpf"
+                :class="{'is-invalid': v$.input.cpf.$error, 'is-valid': !v$.input.cpf.$error && v$.input.cpf.$dirty }" />
+            <div v-if="v$.input.cpf.$error" class="invalid-feedback">
+                <span v-for="(error, index) in v$.input.cpf.$errors" :key="index">
+                    {{ error.$message }}
+                </span>
+            </div>
+            <br>
+            <button class="btn btn-success">Enviar</button>
+
+        </form>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./assets/vue.global.js"></script>
+    <script src="./assets/vue-demi.js"></script>
+    <script src="./assets/core.js"></script>
+    <script src="./assets/validators.js"></script>
+
+    <script type="module">
+        import "./assets/validators.js";
+
+        import { isCpfValid } from './js/validators.js';
+        // https://vuelidate-next.netlify.app/validators.html#minvalue
+        const { createApp, ref, onMounted, watch, computed } = Vue;
+        const { useVuelidate } = Vuelidate;
+        const { required, minLength, helpers, email, sameAs, cpf } = VuelidateValidators;
+
+        createApp({
+            setup() {
+
+
+                const input = ref({
+                    cpf: ""
+                })
+
+                const rules = computed(() => ({
+                    input: {
+                        cpf: {
+                            required: helpers.withMessage('O CPF é obrigatório.', required),
+                            isCpfValid: helpers.withMessage('O CPF precisa ser válido.', isCpfValid),
+                        }
+                    }
+                }));
+
+                const v$ = useVuelidate(rules, { input });
+
+                const handleSubmit = async () => {
+                    const isFormValid = await v$.value.$validate();
+
+                    if (isFormValid) {
+                        console.log('Formulário validado e enviado com sucesso!');
+                        console.log('Dados do formulário:', input.value);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: input.value.cpf,
+                        });
+                    } else {
+                        // Swal.fire({
+                        //     icon: 'error',
+                        //     title: 'Erro',
+                        //     text: 'Por favor, corrija os erros do formulário antes de enviar.',
+                        // });
+                        console.log('Por favor, corrija os erros do formulário antes de enviar.');
+                        console.log('Erros de validação:', v$.value.$errors);
+                    }
+                };
+
+
+                return {
+                    input,
+                    v$,
+                    handleSubmit
+                }
+            },
+
+
+
+        }).mount('#vue');
+
+    </script>
+</body>
+
+</html>
