@@ -12,7 +12,7 @@
     <div id="vue" class="container mt-5">
 
         <form @submit.prevent="handleSubmit">
-            <input class="form-control" v-model="input.cpf" name="cpf" id="cpf"
+            <input v-maska="'000.000.000-00'" placeholder="000.000.000-00" maxlength="14" class="form-control" v-model="input.cpf" name="cpf" id="cpf"
                 :class="{'is-invalid': v$.input.cpf.$error, 'is-valid': !v$.input.cpf.$error && v$.input.cpf.$dirty }" />
             <div v-if="v$.input.cpf.$error" class="invalid-feedback">
                 <span v-for="(error, index) in v$.input.cpf.$errors" :key="index">
@@ -33,6 +33,9 @@
     <script src="./assets/core.js"></script>
     <script src="./assets/validators.js"></script>
 
+    <script src="https://unpkg.com/vue-router@4"></script>
+    <script src="https://unpkg.com/imask"></script>
+
     <script type="module">
         import { isCpfValid } from './js/validators.js';
         // https://vuelidate-next.netlify.app/validators.html#minvalue
@@ -40,7 +43,7 @@
         const { useVuelidate } = Vuelidate;
         const { required, minLength, helpers, email, sameAs, cpf } = VuelidateValidators;
 
-        createApp({
+        const app = createApp({
             setup() {
 
 
@@ -52,6 +55,7 @@
                     input: {
                         cpf: {
                             required: helpers.withMessage('O CPF é obrigatório.', required),
+                            minLength: helpers.withMessage('O CPF deve ter 11 dígitos.', minLength(11)),
                             isCpfValid: helpers.withMessage('O CPF precisa ser válido.', isCpfValid),
                         }
                     }
@@ -91,7 +95,22 @@
 
 
 
-        }).mount('#vue');
+        })
+        // Registrar a diretiva personalizada 'v-maska'
+        app.directive('maska', {
+            mounted(el, binding) {
+                IMask(el, { mask: binding.value });
+            },
+            // Opcional: Se a máscara puder mudar dinamicamente (raro para CPF)
+            // updated(el, binding) {
+            //     if (el.mask) { // Verifica se já existe uma instância de máscara
+            //         el.mask.updateOptions({ mask: binding.value });
+            //     } else {
+            //         IMask(el, { mask: binding.value });
+            //     }
+            // }
+        });
+        app.mount('#vue');
 
     </script>
 </body>
