@@ -1,9 +1,14 @@
-  {% extends 'app.html.twig' %}
+{% extends 'app.html.twig' %}
 
-  {% block title %}{{ title }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
-  {% block content %}
-      
-      {% include 'partials/header.html.twig' %}
+{% block content %}
 
-  {% endblock %}
+{% include 'partials/header.html.twig' %}
+
+{% include 'ui/butttonarrow.html.twig' with {
+  classes: "btn btn-primary",
+  titulo: "Enviar"
+} %}
+
+{% endblock %}
