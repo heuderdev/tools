@@ -1,3 +1,4 @@
+Para instalar digite no powerShell:  code. $PROFILE
 # =================================================================
 # PROTOCOLO DE CONFORMIDADE DE AMBIENTE - CHANCELLOR
 # Define o padrão UTF-8 para toda a sessão do PowerShell.
