@@ -8,6 +8,9 @@ $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 
+// alterado
+
+
 # =================================================================
 # ARQUITETURA DE AUTOMAÇÃO GIT (v3.1 - Invocação Corrigida)
 # =================================================================
