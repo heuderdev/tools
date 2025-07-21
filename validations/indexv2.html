@@ -1,87 +1,197 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>FormValidator v2.0</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body { font-family: system-ui, sans-serif; background-color: #1a1a2e; color: #e0e0e0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        form { background-color: #16213e; padding: 40px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); width: 400px; }
-        h1 { text-align: center; color: #0f3460; margin-top: 0; }
-        .form-group { margin-bottom: 20px; position: relative; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; }
-        input { width: 100%; padding: 12px; border: 1px solid #0f3460; border-radius: 4px; background: #1a1a2e; color: #e0e0e0; font-size: 16px; box-sizing: border-box; transition: border-color 0.3s; }
-        .form-group.error input { border-color: #e94560; }
-        .error-message { color: #e94560; font-size: 12px; padding-top: 5px; }
-        button[type="submit"] { width: 100%; padding: 12px; background-color: #e94560; border: none; color: white; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background-color 0.3s, opacity 0.3s; }
-        button[type="submit"]:hover { background-color: #c73a51; }
-        button[type="submit"]:disabled { background-color: #535353; opacity: 0.6; cursor: not-allowed; }
+        body {
+            font-family: system-ui, sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        form {
+            background-color: #16213e;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0f3460;
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #0f3460;
+            border-radius: 4px;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-group.error input {
+            border-color: #e94560;
+        }
+
+        .error-message {
+            color: #e94560;
+            font-size: 12px;
+            padding-top: 5px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #e94560;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, opacity 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #c73a51;
+        }
+
+        button[type="submit"]:disabled {
+            background-color: #535353;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     </style>
 </head>
+
 <body>
 
-<form id="cadastro-form">
-    <h1>Cadastro</h1>
-    <div class="form-group"><label for="username">Nome de Usuário:</label><input type="text" id="username" name="username"></div>
-    <div class="form-group"><label for="email">Email:</label><input type="email" id="email" name="email"></div>
-    <div class="form-group"><label for="password">Senha:</label><input type="password" id="password" name="password"></div>
-    <div class="form-group"><label for="passwordConfirm">Confirmar Senha:</label><input type="password" id="passwordConfirm" name="passwordConfirm"></div>
-    <button type="submit">Cadastrar</button>
-</form>
+    <form id="cadastro-form">
+        <h1>Cadastro</h1>
+        <div class="form-group">
+            <label for="profilePicture">Foto de Perfil (JPG ou PNG, máx 2MB):</label>
+            <input type="file" id="profilePicture" name="profilePicture" accept="image/jpeg, image/png">
+        </div>
+        <div class="form-group"><label for="username">Nome de Usuário:</label><input type="text" id="username"
+                name="username"></div>
+        <div class="form-group"><label for="email">Email:</label><input type="email" id="email" name="email"></div>
+        <div class="form-group"><label for="password">Senha:</label><input type="password" id="password"
+                name="password"></div>
+        <div class="form-group"><label for="passwordConfirm">Confirmar Senha:</label><input type="password"
+                id="passwordConfirm" name="passwordConfirm"></div>
+        <button type="submit">Cadastrar</button>
+    </form>
 
-<script src="FormValidatorv2.js"></script> <script>
-    const checkUsernameAPI = (username) => new Promise(resolve => setTimeout(() => resolve(username.toLowerCase() !== 'cronos'), 1000));
-        
-    const validationRules = {
-        username: [
-            { validate: value => value.trim().length > 0, message: 'O nome de usuário é obrigatório.' },
-            { validate: value => value.length >= 3, message: 'O nome de usuário deve ter no mínimo 3 caracteres.' },
-            { validate: async value => await checkUsernameAPI(value), message: 'Este nome de usuário já está em uso.' },
-            {validate: async value => await test(value), message: "deu merda"}
-        ],
-        email: [
-            { validate: value => value.trim().length > 0, message: 'O email é obrigatório.' },
-            { validate: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), message: 'Por favor, insira um email válido.' }
-        ],
-        password: [{ validate: value => value.length >= 8, message: 'A senha deve ter no mínimo 8 caracteres.' }],
-        passwordConfirm: [
-            { validate: value => value.length > 0, message: 'A confirmação da senha é obrigatória.' },
-            { validate: (value, formElements) => value === formElements.password.value, message: 'As senhas não coincidem.' }
-        ]
-    };
+    <script src="FormValidatorv4.js"></script>
+    <script>
+        const checkUsernameAPI = (username) => new Promise(resolve => setTimeout(() => resolve(username.toLowerCase() !== 'cronos'), 1000));
 
-    const form = document.getElementById('cadastro-form');
-    
-    // Configuração do validador com os novos callbacks
-    const validator = new FormValidator(form, validationRules, {
-        onValidSubmit: (formData) => {
-            console.log('Formulário válido. Dados a serem enviados:', formData);
-            Swal.fire({
-                title: 'Sucesso!',
-                text: 'Seu cadastro foi realizado com sucesso.',
-                icon: 'success',
-                background: '#16213e',
-                color: '#e0e0e0'
-            });
-        },
-        onInvalidSubmit: (errors) => {
-            console.log('Tentativa de submissão inválida. Erros:', errors);
-            
-            // Cria uma lista HTML formatada a partir do array de erros
-            const errorListHtml = errors.map(err => `<li>${err.message}</li>`).join('');
-            
-            Swal.fire({
-                title: 'Erros de Validação',
-                html: `<ul style="text-align: left; list-style-position: inside;">${errorListHtml}</ul>`,
-                icon: 'error',
-                background: '#16213e',
-                color: '#e0e0e0'
-            });
-        }
-    });
+        const validationRules = {
+            profilePicture: [
+                {
+                    // Regra 1: Verificar se um arquivo foi selecionado.
+                    validate: (value, context) => context.files.length > 0,
+                    message: 'Por favor, selecione uma foto de perfil.'
+                },
+                {
+                    // Regra 2: Verificar o tipo do arquivo.
+                    validate: (value, context) => {
+                        if (context.files.length === 0) return true; // Não valida se não houver arquivo (a regra anterior cuida disso)
+                        const allowedTypes = ['image/jpeg', 'image/png'];
+                        return allowedTypes.includes(context.files[0].type);
+                    },
+                    message: 'O arquivo deve ser do tipo JPG ou PNG.'
+                },
+                {
+                    // Regra 3: Verificar o tamanho do arquivo (ex: máximo de 2MB).
+                    validate: (value, context) => {
+                        if (context.files.length === 0) return true;
+                        const maxSizeInBytes = 1 * 1024 * 1024; // 2MB
+                        return context.files[0].size <= maxSizeInBytes;
+                    },
+                    message: 'O arquivo não pode exceder 2MB.'
+                }
+            ],
+            username: [
+                { validate: value => value.trim().length > 0, message: 'O nome de usuário é obrigatório.' },
+                { validate: value => value.length >= 3, message: 'O nome de usuário deve ter no mínimo 3 caracteres.' },
+                { validate: async value => await checkUsernameAPI(value), message: 'Este nome de usuário já está em uso.' }
+            ],
+            email: [
+                { validate: value => value.trim().length > 0, message: 'O email é obrigatório.' },
+                { validate: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), message: 'Por favor, insira um email válido.' }
+            ],
+            password: [{ validate: value => value.length >= 8, message: 'A senha deve ter no mínimo 8 caracteres.', dependsOn: ['passwordConfirm'] }],
+            passwordConfirm: [
+                {
+                    validate: value => value.length > 0,
+                    message: 'A confirmação da senha é obrigatória.',
+                },
+                {
+                    validate: (value, { elements }) => value === elements.password.value,
+                    message: 'As senhas não coincidem.',
+                    dependsOn: ['password'] // Revalida quando o campo password muda
+                }
+            ]
+        };
 
-    validator.init();
-</script>
+        const form = document.getElementById('cadastro-form');
+
+        // Configuração do validador com os novos callbacks
+        const validator = new FormValidator(form, validationRules, {
+            onValidSubmit: async (formData) => {
+                console.log('Formulário válido. Dados a serem enviados:', formData);
+                await validator.submit("/api/cadastro")
+                Swal.fire({
+                    title: 'Sucesso!',
+                    text: 'Seu cadastro foi realizado com sucesso.',
+                    icon: 'success',
+                    background: '#16213e',
+                    color: '#e0e0e0'
+                });
+            },
+            onInvalidSubmit: (errors) => {
+                console.log('Tentativa de submissão inválida. Erros:', errors);
+
+                // Cria uma lista HTML formatada a partir do array de erros
+                const errorListHtml = errors.map(err => `<li>${err.message}</li>`).join('');
+
+                Swal.fire({
+                    title: 'Erros de Validação',
+                    html: `<ul style="text-align: left; list-style-position: inside;">${errorListHtml}</ul>`,
+                    icon: 'error',
+                    background: '#16213e',
+                    color: '#e0e0e0'
+                });
+            }
+        });
+
+        validator.init();
+    </script>
 
 </body>
+
 </html>
